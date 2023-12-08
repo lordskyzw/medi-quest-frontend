@@ -1,14 +1,17 @@
 import Head from 'next/head';
 import { useState } from 'react';
+import SearchResults from '../components/SearchResults';
 
 export default function Home() {
   const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
 
   const handleSearch = async () => {
     // Replace `backend_api_endpoint` with your Python backend endpoint.
     // Ensure that you have CORS configured on your backend to accept requests from this origin.
     const response = await fetch(`backend_api_endpoint/search?q=${query}`);
     const data = await response.json();
+    setResults(data);
     // Handle the search results data.
     console.log(data);
   };
@@ -38,6 +41,8 @@ export default function Home() {
             Search
           </button>
         </form>
+        {/* Render the SearchResults component here and pass the search results as a prop */}
+        <SearchResults results={results} />
       </main>
     </div>
   );
